@@ -1,0 +1,17 @@
+{
+  "mappings": {
+    "zones": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "labelFr": {
+          "type": "text"
+        },
+        "labelNl": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
