@@ -1,0 +1,15 @@
+{
+  "mappings": {
+    "properties": {
+      "labelFr": {
+        "type": "text"
+      },
+      "labelNl": {
+        "type": "text"
+      },
+      "agreementPowerId": {
+        "type": "short"
+      }
+    }
+  }
+}

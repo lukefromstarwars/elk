@@ -1,0 +1,31 @@
+accreditations-mappings
+    "agreementPower"
+    "id",
+
+
+accreditors-mappings
+    "id": 508,
+
+categories-mappings
+    "id": 489,
+    "organisationsCount": 28
+
+languages-mappings
+    "id": 821,
+
+legal-status-mappings
+    "id": 941,
+
+organisations-mappings
+    "id": 941,
+    "lon": 4.462612724507353,
+    "lat": 50.84522915778623,
+
+sectors-mappings
+    "id": 941,
+
+service-types-mappings
+    "id": 941,
+
+zones-mappings
+    "parents": null,

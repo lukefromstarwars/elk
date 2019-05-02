@@ -1,0 +1,22 @@
+{
+  "mappings": {
+    "properties": {
+      "titleFr": {
+        "type": "text"
+      },
+      "titleNl": {
+        "type": "text"
+      },
+      "descriptionFr": {
+        "type": "text"
+      },
+      "descriptionNl": {
+        "type": "text"
+      },
+      "order": {
+        "type": "short"
+      }
+    }
+  }
+}
+

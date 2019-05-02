@@ -1,0 +1,12 @@
+{
+  "mappings": {
+    "properties": {
+      "nameFr": {
+        "type": "text"
+      },
+      "nameNl": {
+        "type": "text"
+      }
+    }
+  }
+}

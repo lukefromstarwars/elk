@@ -542,6 +542,50 @@ def print_info( *args, nb_rows=None, nb_columns=None, spaced=1, print_type=False
 	print_to_console(args, nb_rows, nb_columns, print_type)
 
 
+def print_progress_bar( iteration, total, prefix='', suffix='', decimals=1, bar_length=100, fill='█' ):
+	"""
+	Call in a loop to create terminal progress bar
+	@params:
+		iteration   - Required  : current iteration (Int)
+		total       - Required  : total iterations (Int)
+		prefix      - Optional  : prefix string (Str)
+		suffix      - Optional  : suffix string (Str)
+		decimals    - Optional  : positive number of decimals in percent complete (Int)
+		bar_length  - Optional  : character length of bar (Int)
+	"""
+	str_format = "{0:." + str(decimals) + "f}"
+	percents = str_format.format(100 * (iteration / float(total)))
+	filled_length = int(round(bar_length * iteration / float(total)))
+	bar = '█' * filled_length + '-' * (bar_length - filled_length)
+
+	sys.stdout.write('\r%s |%s| %s%s %s' % (prefix, bar, percents, '%', suffix)),
+
+	if iteration == total:
+		sys.stdout.write('\n')
+
+	sys.stdout.flush()
+
+
+# """
+# Call in a loop to create terminal progress bar
+# @params:
+# 	iteration   - Required  : current iteration (Int)
+# 	total       - Required  : total iterations (Int)
+# 	prefix      - Optional  : prefix string (Str)
+# 	suffix      - Optional  : suffix string (Str)
+# 	decimals    - Optional  : positive number of decimals in percent complete (Int)
+# 	length      - Optional  : character length of bar (Int)
+# 	fill        - Optional  : bar fill character (Str)
+# """
+# percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+# filled_length = int(length * iteration // total)
+# bar = fill * filled_length + '-' * (length - filled_length)
+# print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end='\r')
+# # Print New Line on Complete
+# if iteration == total:
+# 	print()
+
+
 # endregion
 
 
@@ -696,7 +740,7 @@ def save_as_html( df, fn ):
 def save_as_json( json_file, fn ):
 	file_path = MyFolders.SOURCES + fn + '.json'
 	print_check(file_path)
-	f = open(file_path, 'w')
+	f = open(file_path, 'wb')
 	f.write(json_file)
 	f.close()
 
