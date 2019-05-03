@@ -1,4 +1,5 @@
 from utils import *
+from json_transformations import *
 import requests
 from elasticsearch import Elasticsearch
 import json
@@ -29,9 +30,6 @@ def import_lookups_as_json():
 	for key in cdcs_imports_lkups.keys():
 		print(key, cdcs_imports_lkups[ key ])
 		response = requests.get(cdcs_imports_lkups[ key ])
-
-		# save_as_json(str(response.content.decode("cp1252").encode("utf8")), key)
-		# save_as_json(str(response.content, encoding="cp1252", errors="ignore"), key)
 		save_as_json(response.content, key)
 
 
@@ -53,48 +51,64 @@ def create_bulk_index_json():
 	es = Elasticsearch([ es_host ])
 
 	for fn in os.listdir(MyFolders.SOURCES):
-		if fn == "organisations.json":
-			# if fn.endswith(".json"):
+		# if fn == "organisations.json":
+		if fn.endswith(".json"):
 			file_name = os.path.splitext(fn)[ 0 ]
 			print(file_name)
 
 			# Load default settings
-			f = open(MyFolders.SOURCES + "settings/default-settings.json", encoding="utf-8")
-			# f = open(MyFolders.SOURCES + "settings/default-settings.json", encoding="latin-1")
-			default_settings = json.load(f)
-			f.close
+			# default_settings = dict()
+			with open(MyFolders.SOURCES + "settings/default-settings.json", encoding="utf-8") as f:
+				# f = open(MyFolders.SOURCES + "settings/default-settings.json", encoding="latin-1")
+				default_settings = json.load(f)
 
 			# Create index mappings
-			if not es.indices.exists(f"cdcs-{file_name}"):
-				file_path = MyFolders.SOURCES + f"mappings/{file_name}-mappings.json"
-				f = open(file_path)
-				# j = f.read()
-				index_settings = json.load(f)
-				index_settings[ "settings" ] = default_settings[ "settings" ]
+			index_name = f"cdcs-{file_name}"
+			# DEV++
+			es.indices.delete(index=index_name, ignore=[ 400, 404 ])
+			print_debug(es.indices.exists(index_name))
 
-				es.indices.create(index=f"cdcs-{file_name}", ignore=400, body=index_settings)
-				f.close
+			if not es.indices.exists(index_name):
+				file_path = MyFolders.SOURCES + f"mappings/{file_name}-mappings.json"
+
+				with open(file_path, encoding="utf-8") as f:
+					index_settings = json.load(f)
+
+				index_settings[ "settings" ] = default_settings[ "settings" ]
+				es.indices.create(index=index_name, body=index_settings)
+				print_check(es.indices.exists(index_name))
 
 			# Index json file
-			f = open(MyFolders.SOURCES + fn, encoding="utf-8")
-			# f = open(MyFolders.SOURCES + fn, encoding="latin-1")
-			docs = json.load(f)
-			# docs.append
+			with open(MyFolders.SOURCES + fn, encoding="utf-8") as f:
+				# f = open(MyFolders.SOURCES + fn, encoding="latin-1")
+				docs = json.load(f)
 
-			# Send the data into es
-			i = 0
-			total = len(docs)
-			print_progress_bar(i, total, prefix='Progress:', suffix='Complete', bar_length=50)
+				# DEV++
+				# docs = docs[ :100 ]
+				# print_debug(type(docs))
 
-			for doc in docs:
-				i = i + 1
-				# print(as_percent(i / total))
-				print_progress_bar(i, total, prefix='Progress:', suffix='Complete', bar_length=50)
+				# Transform json to custom schema
+				transform_json(file_name, docs)
 
-				my_id = doc[ "id" ]
-				del doc[ "id" ]
-				es.index(index=f"cdcs-{file_name}", id=my_id, ignore=400, body=doc)
-			f.close()
+				# Send the data into es
+				i = 0
+				total = len(docs)
+				print_progress_bar(i, total, prefix='Progress:', suffix='Complete', bar_length=100)
 
-# print(cdcs_imports_lkups [ "sectors" ])
-# sectors = response.json()
+				# DEV++
+				# added_ids = [ ]
+
+				for doc in docs:
+					i = i + 1
+					print_progress_bar(i, total, prefix='Progress:', suffix='Complete', bar_length=100)
+
+					my_id = doc[ "id" ]
+					del doc[ "id" ]
+					es.index(index=f"cdcs-{file_name}", id=my_id, ignore=400, body=doc)
+
+				# DEV++
+				# added_ids.append(my_id)
+
+			# print_to_console(added_ids)
+			print_check("Done")
+

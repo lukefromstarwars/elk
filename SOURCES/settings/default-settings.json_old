@@ -8,58 +8,56 @@
         "type": "boolean"
       },
       "address": {
-        "properties": {
-          "location": {
-            "type": "geo_point"
-          },
-          "municipalityFr": {
-            "type": "text"
-          },
-          "municipalityNl": {
-            "type": "text"
-          },
-          "streetFr": {
-            "type": "text"
-          },
-          "streetNl": {
-            "type": "text"
-          },
-          "number": {
-            "type": "text"
-          },
-          "numberBuilding": {
-            "type": "text"
-          },
-          "zipCode": {
-            "type": "short"
-          },
-          "postalBox": {
-            "type": "text"
-          },
-          "districtFr": {
-            "type": "text"
-          },
-          "districtNl": {
-            "type": "text"
-          },
-          "districtCode": {
-            "type": "text"
-          },
-          "statisticsCode": {
-            "type": "text"
-          },
-          "remarkFr": {
-            "type": "text"
-          },
-          "remarkNl": {
-            "type": "text"
-          },
-          "statisticsNameFr": {
-            "type": "text"
-          },
-          "statisticsNameNl": {
-            "type": "text"
-          }
+        "location": {
+          "type": "geo_point"
+        },
+        "municipalityFr": {
+          "type": "text"
+        },
+        "municipalityNl": {
+          "type": "text"
+        },
+        "streetFr": {
+          "type": "text"
+        },
+        "streetNl": {
+          "type": "text"
+        },
+        "number": {
+          "type": "text"
+        },
+        "numberBuilding": {
+          "type": "text"
+        },
+        "zipCode": {
+          "type": "short"
+        },
+        "postalBox": {
+          "type": "text"
+        },
+        "districtFr": {
+          "type": "text"
+        },
+        "districtNl": {
+          "type": "text"
+        },
+        "districtCode": {
+          "type": "text"
+        },
+        "statisticsCode": {
+          "type": "text"
+        },
+        "remarkFr": {
+          "type": "text"
+        },
+        "remarkNl": {
+          "type": "text"
+        },
+        "statisticsNameFr": {
+          "type": "text"
+        },
+        "statisticsNameNl": {
+          "type": "text"
         }
       },
       "categoryIds": {
